@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.Set;
+import java.time.LocalTime;
+import java.time.LocalDate;
 
 public class Main {
     public static void main(String[] args) {
@@ -8,16 +9,18 @@ public class Main {
 
         ArrayList<Setor> setores = new ArrayList<>();
         ArrayList<Veiculos> veiculos = new ArrayList<>();
+        ArrayList<Reserva> reservas = new ArrayList<>();
+        int proxReserva = 1;
 
         setores.add(new Setor(1, "EXPEDIÇÃO"));
         setores.add(new Setor(2, "COMERCIAL"));
         setores.add(new Setor(3, "MARKETING"));
         setores.add(new Setor(4, "DIRETORIA"));
 
-        veiculos.add(new Veiculos(1, "ABC123", "VOLKSWAGEN", "NIVUS", 2023, true));
-        veiculos.add(new Veiculos(2, "DEF456", "FIAT", "SCUDO", 2025, false));
-        veiculos.add(new Veiculos(3, "GHI789", "FIAT", "STRADA", 2022, false));
-        veiculos.add(new Veiculos(4, "JKL012", "CHEVROLET", "CRUZE", 2022, true));
+        veiculos.add(new Veiculos(1, "ABC123", "VOLKSWAGEN", "NIVUS", 2023));
+        veiculos.add(new Veiculos(2, "DEF456", "FIAT", "SCUDO", 2025));
+        veiculos.add(new Veiculos(3, "GHI789", "FIAT", "STRADA", 2022));
+        veiculos.add(new Veiculos(4, "JKL012", "CHEVROLET", "CRUZE", 2022));
 
         System.out.println("======================================");
         System.out.println("     FROTA VEICULOS EMPRESARIAIS");
@@ -28,7 +31,7 @@ public class Main {
         Setor setorLogado = null;
 
         while (setorLogado == null) {
-            System.out.print("Digite o ID do setor: ");
+            System.out.println("Entre com o ID do setor ");
             int idSetor = lerId(sc);
 
             for (Setor setor : setores) {
@@ -60,7 +63,7 @@ public class Main {
         Veiculos veiculoEscolhido = null;
 
         while (veiculoEscolhido == null) {
-            System.out.print("Digite o ID do veiculo que deseja reservar: ");
+            System.out.println("Entre com ID do veiculo que deseja reservar ");
             int idVeiculo = lerId(sc);
 
             for (Veiculos veiculo : veiculos) {
@@ -77,17 +80,33 @@ public class Main {
             }
         }
         System.out.println();
-        if (veiculoEscolhido == null) {
-            System.out.println("Veículo não encontrado");
-        } else if (!veiculoEscolhido.estaDisponivel())
-            System.out.println("Este veículo já esta reservado");
-        else {
-            System.out.println("Veículo selecionado: " + veiculoEscolhido.getModelo());
-            System.out.println("Pronto para iniciar a reserva");
-        }
+
+        System.out.println("Veículo selecionado: " + veiculoEscolhido.getModelo());
+
+        System.out.print("Observação da reserva: ");
+        String obs = sc.nextLine();
+
+        LocalDate data = LocalDate.now();
+        LocalTime horario = LocalTime.now();
+
+        Reserva reserva = new Reserva(
+                1,
+                data,
+                horario,
+                "ATIVA",
+                obs,
+                veiculoEscolhido,
+                setorLogado
+        );
+
+        reservas.add(reserva);
+        setorLogado.adcReserva(reserva);
+        veiculoEscolhido.alterarDisponibilidade(false);
+
+        System.out.println("\nReserva realizada com sucesso!");
+        reserva.exibirDados();
         sc.close();
     }
-
     public static int lerId(Scanner sc) {
         while (true) {
             try {

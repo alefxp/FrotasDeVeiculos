@@ -7,13 +7,13 @@ public class Veiculos {
     private int ano;
     private boolean disponivel;
 
-    public Veiculos(int id, String placa, String marca, String modelo, int ano, boolean disponivel) {
+    public Veiculos(int id, String placa, String marca, String modelo, int ano) {
         this.id = id;
         this.placa = placa;
         this.marca = marca;
         this.modelo = modelo;
         this.ano = ano;
-        this.disponivel = disponivel;
+        this.disponivel = true;
     }
 
     public int getId() {
