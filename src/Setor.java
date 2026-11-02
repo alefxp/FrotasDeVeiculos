@@ -12,6 +12,9 @@ public class Setor {
         this.nome = nome;
         this.reservas = new ArrayList<>();
     }
+    public List <Reserva> getReservas() {
+        return reservas;
+    }
 
     public void adcReserva(Reserva reserva) {
         reservas.add(reserva);

@@ -31,7 +31,7 @@ public class Main {
         Setor setorLogado = null;
 
         while (setorLogado == null) {
-            System.out.println("Entre com o ID do setor ");
+            System.out.print("Entre com o ID do setor: ");
             int idSetor = lerId(sc);
 
             for (Setor setor : setores) {
@@ -47,70 +47,103 @@ public class Main {
 
         System.out.println("\n Bem-vindo, " + setorLogado.getNome() + " !");
 
-        System.out.println("\n======= TODOS OS   VEÍCULOS =======");
+        int opcao = 0;
 
-        for (Veiculos veiculo : veiculos) {
-            System.out.println("\nModelo: " + veiculo.getModelo());
-            System.out.println("Placa: " + veiculo.getPlaca());
+        while (opcao != 3) {
+            System.out.println("\n======= MENU DO SETOR =======");
+            System.out.println("1 - Realizar reserva");
+            System.out.println("2 - Minhas reservas");
+            System.out.println("3 - Sair");
+            System.out.print("Escolha uma opção: ");
 
-            if (veiculo.estaDisponivel()) {
-                System.out.println("Status: DISPONÍVEL");
-            } else {
-                System.out.println("Status: INDISPONÍVEL");
-            }
-        }
-        System.out.println();
-        Veiculos veiculoEscolhido = null;
+            opcao = lerId(sc);
 
-        while (veiculoEscolhido == null) {
-            System.out.println("Entre com ID do veiculo que deseja reservar ");
-            int idVeiculo = lerId(sc);
+            if (opcao == 1) {
 
-            for (Veiculos veiculo : veiculos) {
-                if (veiculo.getId() == idVeiculo) {
-                    veiculoEscolhido = veiculo;
-                    break;
+                System.out.println("\n======= TODOS OS VEÍCULOS =======");
+
+                for (Veiculos veiculo : veiculos) {
+                    System.out.println("\nModelo: " + veiculo.getModelo());
+                    System.out.println("Placa: " + veiculo.getPlaca());
+
+                    if (veiculo.estaDisponivel()) {
+                        System.out.println("Status: DISPONÍVEL");
+                    } else {
+                        System.out.println("Status: INDISPONÍVEL");
+                    }
                 }
-            }
-            if (veiculoEscolhido == null) {
-                System.out.println("Veiculo não encontrado. Tente novamente.");
-            } else if (!veiculoEscolhido.estaDisponivel()) {
-                System.out.println("Este veículo já esta reservado. Escolha outro. ");
-                veiculoEscolhido = null;
+
+                Veiculos veiculoEscolhido = null;
+
+                while (veiculoEscolhido == null) {
+                    System.out.print("Entre com ID do veículo: ");
+                    int idVeiculo = lerId(sc);
+
+                    for (Veiculos veiculo : veiculos) {
+                        if (veiculo.getId() == idVeiculo) {
+                            veiculoEscolhido = veiculo;
+                            break;
+                        }
+                    }
+
+                    if (veiculoEscolhido == null) {
+                        System.out.println("Veículo não encontrado.");
+                    } else if (!veiculoEscolhido.estaDisponivel()) {
+                        System.out.println("Veículo indisponível no momento! ");
+                        veiculoEscolhido = null;
+                    }
+                }
+
+                System.out.print("Observação da reserva: ");
+                String obs = sc.nextLine();
+
+                LocalDate data = LocalDate.now();
+                LocalTime horario = LocalTime.now();
+
+                Reserva reserva = new Reserva(
+                        proxReserva,
+                        data,
+                        horario,
+                        "ATIVA",
+                        obs,
+                        veiculoEscolhido,
+                        setorLogado
+                );
+
+                proxReserva++;
+
+                reservas.add(reserva);
+                setorLogado.adcReserva(reserva);
+                veiculoEscolhido.alterarDisponibilidade(false);
+
+                System.out.println("\nReserva realizada com sucesso!");
+                reserva.exibirDados();
+            } else if (opcao == 2) {
+
+                System.out.println("\n======= MINHAS RESERVAS =======");
+
+                if (setorLogado.getReservas().isEmpty()) {
+                    System.out.println("Você ainda não possui reservas.");
+
+                } else {
+
+                    for (Reserva reserva : setorLogado.getReservas()) {
+                        reserva.exibirDados();
+                        System.out.println("---------------------------");
+                    }
+                }
+            } else if (opcao == 3) {
+                System.out.println("Encerrando...");
+            } else {
+                System.out.println("Opção invalida! ");
             }
         }
-        System.out.println();
 
-        System.out.println("Veículo selecionado: " + veiculoEscolhido.getModelo());
-
-        System.out.print("Observação da reserva: ");
-        String obs = sc.nextLine();
-
-        LocalDate data = LocalDate.now();
-        LocalTime horario = LocalTime.now();
-
-        Reserva reserva = new Reserva(
-                1,
-                data,
-                horario,
-                "ATIVA",
-                obs,
-                veiculoEscolhido,
-                setorLogado
-        );
-
-        reservas.add(reserva);
-        setorLogado.adcReserva(reserva);
-        veiculoEscolhido.alterarDisponibilidade(false);
-
-        System.out.println("\nReserva realizada com sucesso!");
-        reserva.exibirDados();
-        sc.close();
     }
+
     public static int lerId(Scanner sc) {
         while (true) {
             try {
-                System.out.print("Digite um ID: ");
                 String entrada = sc.nextLine();
                 return Integer.parseInt(entrada);
 

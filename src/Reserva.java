@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class Reserva {
 
@@ -27,7 +28,7 @@ public class Reserva {
         System.out.println("Veiculo:" + veiculo.getModelo()+", "+ "Placa: "+ veiculo.getPlaca());
         System.out.println("Setor: " + setor.getNome());
         System.out.println("Data: " + data);
-        System.out.println("Horario: " + horario);
+        System.out.println("Horario: " + horario.format(DateTimeFormatter.ofPattern("HH:mm")));
         System.out.println("Status: " + status);
         System.out.println("Observação: " + obs);
     }
