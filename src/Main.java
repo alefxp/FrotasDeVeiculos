@@ -133,6 +133,43 @@ public class Main {
                     }
                 }
             } else if (opcao == 3) {
+
+                System.out.println();
+
+                boolean estaAtiva = false;
+
+                for (Reserva reserva : setorLogado.getReservas()) {
+                    if (reserva.getStatus().equals("ATIVA")) {
+                        estaAtiva = true;
+                        break;
+                    }
+                }
+
+                if (!estaAtiva) {
+                    System.out.println("Você não possui veículos para devolver! ");
+                } else {
+                    System.out.print("Digite o ID da reserva que deseja devolver: ");
+                    int idReserva = lerId(sc);
+
+                    Reserva reservaEncontrada = null;
+
+                    for (Reserva reservaa : setorLogado.getReservas()) {
+                        if (reservaa.getStatus().equals("ATIVA")
+                                && reservaa.getId() == idReserva) {
+                            reservaEncontrada = reservaa;
+                            break;
+                        }
+                    }
+                    if (reservaEncontrada == null) {
+                        System.out.println("Nenhuma reserva ativa com esse ID no seu setor.");
+                    } else {
+                        reservaEncontrada.setStatus("FINALIZADA");
+                        reservaEncontrada.getVeiculo().alterarDisponibilidade(true);
+                        System.out.println("\nVeículo devolvido com sucesso! ");
+                    }
+                }
+
+            } else if (opcao == 4) {
                 System.out.println("Encerrando...");
             } else {
                 System.out.println("Opção invalida! ");
