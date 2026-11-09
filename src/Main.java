@@ -10,6 +10,7 @@ public class Main {
         ArrayList<Setor> setores = new ArrayList<>();
         ArrayList<Veiculos> veiculos = new ArrayList<>();
         ArrayList<Reserva> reservas = new ArrayList<>();
+        ArrayList<Login> logins = new ArrayList<>();
         int proxReserva = 1;
 
         setores.add(new Setor(1, "EXPEDIÇÃO"));
@@ -49,11 +50,12 @@ public class Main {
 
         int opcao = 0;
 
-        while (opcao != 3) {
+        while (opcao != 4) {
             System.out.println("\n======= MENU DO SETOR =======");
             System.out.println("1 - Realizar reserva");
             System.out.println("2 - Minhas reservas");
-            System.out.println("3 - Sair");
+            System.out.println("3 - Devolver veículo");
+            System.out.println("4 - Sair");
             System.out.print("Escolha uma opção: ");
 
             opcao = lerId(sc);
@@ -63,6 +65,8 @@ public class Main {
                 System.out.println("\n======= TODOS OS VEÍCULOS =======");
 
                 for (Veiculos veiculo : veiculos) {
+                    System.out.println();
+                    System.out.print("ID do veiculo: " + veiculo.getId());
                     System.out.println("\nModelo: " + veiculo.getModelo());
                     System.out.println("Placa: " + veiculo.getPlaca());
 
@@ -121,6 +125,7 @@ public class Main {
             } else if (opcao == 2) {
 
                 System.out.println("\n======= MINHAS RESERVAS =======");
+                System.out.println();
 
                 if (setorLogado.getReservas().isEmpty()) {
                     System.out.println("Você ainda não possui reservas.");
@@ -175,7 +180,6 @@ public class Main {
                 System.out.println("Opção invalida! ");
             }
         }
-
     }
 
     public static int lerId(Scanner sc) {
