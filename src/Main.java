@@ -23,6 +23,9 @@ public class Main {
         veiculos.add(new Veiculos(3, "GHI789", "FIAT", "STRADA", 2022));
         veiculos.add(new Veiculos(4, "JKL012", "CHEVROLET", "CRUZE", 2022));
 
+        logins.add(new Login(1, "Admin", "admin@frotas.com", "admin123", setores.get(3)));
+        logins.add(new Login(2, "Maria", "maria@come.com", "maria123", setores.get(1)));
+        logins.add(new Login(3, "Alef", "alef@exped.com", "alef123", setores.get(0)));
 
 
         System.out.println("======================================");
@@ -30,25 +33,56 @@ public class Main {
         System.out.println("======================================");
         System.out.println();
 
-
+        int log = 0;
         Setor setorLogado = null;
+        Login usuarioLogado = null;
 
-        while (setorLogado == null) {
-            System.out.print("Entre com o ID do setor: ");
-            int idSetor = lerId(sc);
+        while (true) {
+            System.out.println("1- Login ");
+            System.out.println("2- Sair ");
+            System.out.print("Escolha uma opção: ");
 
-            for (Setor setor : setores) {
-                if (setor.getId() == idSetor) {
-                    setorLogado = setor;
-                    break;
+            int opcao = lerId(sc);
+
+            if (opcao == 1) {
+                System.out.print("Email: ");
+                String email = sc.nextLine();
+                System.out.print("Senha: ");
+                String senha = sc.nextLine();
+
+                usuarioLogado = null;
+                setorLogado = null;
+
+                for (Login login : logins) {
+                    if (login.getEmail().equals(email)) {
+                        if (login.validarSenha(senha)) {
+                            usuarioLogado = login;
+                            setorLogado = usuarioLogado.getSetor();
+                            break;
+                        }
+                    }
                 }
+                if (usuarioLogado != null) {
+                    System.out.println("Login realizado! ");
+                    break;
+                } else {
+                    System.out.println("email ou senha incorretos! ");
+                }
+            } else if (opcao == 2) {
+                System.out.println("encerrando... ");
+                return;
             }
-            if (setorLogado == null) {
-                System.out.println("Setor não encontrado. Tente novamente. \n");
+            else {
+                System.out.println("Opção invalida! ");
             }
         }
 
-        System.out.println("\n Bem-vindo, " + setorLogado.getNome() + " !");
+
+        System.out.println("\n Bem-vindo, " + usuarioLogado.getNome()
+                + "! "
+                + " "
+                + "Setor: " +
+                setorLogado.getNome() + " !");
 
         int opcao = 0;
 
@@ -123,6 +157,7 @@ public class Main {
                 veiculoEscolhido.alterarDisponibilidade(false);
 
                 System.out.println("\nReserva realizada com sucesso!");
+                System.out.println();
                 reserva.exibirDados();
             } else if (opcao == 2) {
 
