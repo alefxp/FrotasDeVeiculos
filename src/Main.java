@@ -17,15 +17,17 @@ public class Main {
         setores.add(new Setor(2, "COMERCIAL"));
         setores.add(new Setor(3, "MARKETING"));
         setores.add(new Setor(4, "DIRETORIA"));
+        setores.add(new Setor(5, "TI"));
 
         veiculos.add(new Veiculos(1, "ABC123", "VOLKSWAGEN", "NIVUS", 2023));
         veiculos.add(new Veiculos(2, "DEF456", "FIAT", "SCUDO", 2025));
         veiculos.add(new Veiculos(3, "GHI789", "FIAT", "STRADA", 2022));
         veiculos.add(new Veiculos(4, "JKL012", "CHEVROLET", "CRUZE", 2022));
 
-        logins.add(new Login(1, "Admin", "admin@frotas.com", "admin123", setores.get(3)));
-        logins.add(new Login(2, "Maria", "maria@come.com", "maria123", setores.get(1)));
-        logins.add(new Login(3, "Alef", "alef@exped.com", "alef123", setores.get(0)));
+        logins.add(new Login(1, "Admin", "admin@", "admin123", setores.get(3)));
+        logins.add((new Login(2, "TI", "ti@", "ti123", setores.get(4))));
+        logins.add(new Login(3, "Maria", "maria@come.com", "maria123", setores.get(1)));
+        logins.add(new Login(4, "Alef", "alef@exped.com", "alef123", setores.get(0)));
 
 
         System.out.println("======================================");
@@ -71,12 +73,10 @@ public class Main {
             } else if (opcao == 2) {
                 System.out.println("encerrando... ");
                 return;
-            }
-            else {
+            } else {
                 System.out.println("Opção invalida! ");
             }
         }
-
 
         System.out.println("\n Bem-vindo, " + usuarioLogado.getNome()
                 + "! "
@@ -84,14 +84,22 @@ public class Main {
                 + "Setor: " +
                 setorLogado.getNome() + " !");
 
-        int opcao = 0;
+        int opcao = -1;
 
-        while (opcao != 4) {
+        while (opcao != 0) {
+
             System.out.println("\n======= MENU DO SETOR =======");
             System.out.println("1 - Realizar reserva");
             System.out.println("2 - Minhas reservas");
             System.out.println("3 - Devolver veículo");
-            System.out.println("4 - Sair");
+            if (usuarioLogado.podeGerenciarVeiculo()) {
+                System.out.println("4 - Cadastrar veiculo");
+                System.out.println("5 - Remover veiculo");
+            }
+            if (usuarioLogado.podeGerenciarUsuario()) {
+                System.out.println("6 - Gerenciar usuario");
+            }
+            System.out.println("0 - Sair");
             System.out.print("Escolha uma opção: ");
 
             opcao = lerId(sc);
@@ -211,8 +219,29 @@ public class Main {
                     }
                 }
 
-            } else if (opcao == 4) {
+            } else if (opcao == 0) {
                 System.out.println("Encerrando...");
+            } else if (opcao == 4) {
+                if (usuarioLogado.podeGerenciarVeiculo()) {
+                    System.out.println("Não finalizado...");
+                }
+                else {
+                    System.out.println("Acesso negado");
+                }
+            } else if (opcao == 5) {
+                if (usuarioLogado.podeGerenciarVeiculo()) {
+                    System.out.println("Não finalizado...");
+                }
+                else {
+                    System.out.println("Acesso negado");
+                }
+            } else if (opcao == 6) {
+                if (usuarioLogado.podeGerenciarUsuario()) {
+                    System.out.println("Não finalizado");
+                }
+                else {
+                    System.out.println("Acesso negado");
+                }
             } else {
                 System.out.println("Opção invalida! ");
             }

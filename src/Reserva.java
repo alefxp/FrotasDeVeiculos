@@ -25,7 +25,7 @@ public class Reserva {
 
     public void exibirDados() {
         System.out.println("ID da reserva: " + id);
-        System.out.println("Veiculo:" + veiculo.getModelo()+", "+ "Placa: "+ veiculo.getPlaca());
+        System.out.println("Veiculo: " + veiculo.getModelo()+", "+ "Placa: "+ veiculo.getPlaca());
         System.out.println("Setor: " + setor.getNome());
         System.out.println("Data: " + data);
         System.out.println("Horario: " + horario.format(DateTimeFormatter.ofPattern("HH:mm")));
@@ -47,6 +47,10 @@ public class Reserva {
 
     public String getStatus() {
         return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getObs() {

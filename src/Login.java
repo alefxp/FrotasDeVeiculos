@@ -38,8 +38,17 @@ public class Login {
     public void setEmail(String email) {
         this.email = email;
     }
-    public boolean validarSenha (String senhaDigitada) {
+
+    public boolean validarSenha(String senhaDigitada) {
         return this.senha.equals(senhaDigitada);
+    }
+
+    public boolean podeGerenciarVeiculo() {
+        return setor.getNome().equals("DIRETORIA");
+    }
+
+    public boolean podeGerenciarUsuario() {
+        return setor.getNome().equals("TI");
     }
 
 }
